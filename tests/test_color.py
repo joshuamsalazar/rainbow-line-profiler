@@ -1,33 +1,25 @@
 import numpy as np
-from src.analysis.color import rgb_to_hsv, generate_reference_rainbow
+from src.analysis.color import rgb_to_hsv_unwrapped, normalize_rgb
+from src.analysis.rainbow import generate_reference_profile
 
 def test_rgb_to_hsv_basic():
-    """Test basic RGB to HSV conversion."""
-    # White
-    rgb = np.array([[1.0, 1.0, 1.0]])
-    hsv = rgb_to_hsv(rgb)
-    assert np.allclose(hsv[0], [0.0, 0.0, 1.0])
-    
-    # Red
-    rgb = np.array([[1.0, 0.0, 0.0]])
-    hsv = rgb_to_hsv(rgb)
-    assert np.isclose(hsv[0, 0], 0.0)  # Hue
-    assert np.isclose(hsv[0, 1], 1.0)  # Saturation
-    assert np.isclose(hsv[0, 2], 1.0)  # Value
+    rgb = np.array([[[1.0, 1.0, 1.0]]])
+    rgb01 = normalize_rgb(rgb.reshape(-1, 3))
+    hue_unwrapped, saturation, value = rgb_to_hsv_unwrapped(rgb01)
+    assert np.isclose(hue_unwrapped[0], 0.0)
+    assert np.isclose(saturation[0], 0.0)
+    assert np.isclose(value[0], 1.0)
 
-def test_generate_reference_rainbow():
-    """Test reference rainbow generation."""
-    num_samples = 100
-    positions, rgb, hsv = generate_reference_rainbow(num_samples)
-    
-    assert len(positions) == num_samples
-    assert rgb.shape == (num_samples, 3)
-    assert hsv.shape == (num_samples, 3)
-    
-    # Check hue goes from 0 to 1
-    assert np.isclose(hsv[0, 0], 0.0)
-    assert np.isclose(hsv[-1, 0], 1.0)
-    
-    # Check saturation and value are 1
-    assert np.allclose(hsv[:, 1], 1.0)
-    assert np.allclose(hsv[:, 2], 1.0)
+    rgb = np.array([[[1.0, 0.0, 0.0]]])
+    rgb01 = normalize_rgb(rgb.reshape(-1, 3))
+    hue_unwrapped, saturation, value = rgb_to_hsv_unwrapped(rgb01)
+    assert np.isclose(hue_unwrapped[0], 0.0)
+    assert np.isclose(saturation[0], 1.0)
+    assert np.isclose(value[0], 1.0)
+
+def test_generate_reference_profile():
+    config = {"reference": {"hue_range": [0.0, 1.0], "default_saturation": 1.0}}
+    reference = generate_reference_profile(100, config)
+    assert len(reference["hue"]) == 100
+    assert np.isclose(reference["hue"][0], 0.0)
+    assert np.isclose(reference["hue"][-1], 1.0)

@@ -36,32 +36,61 @@ def analyze_image(image, line, config):
     )
 
 def run_app_pipeline(config):
+    # Initialize session state
+    if 'canvas_key' not in st.session_state:
+        st.session_state.canvas_key = 0
+    if 'analysis_result' not in st.session_state:
+        st.session_state.analysis_result = None
+
+    st.write("DEBUG: running pipeline module")
+    # Get image and line
     image, line = get_image_and_line_selection(config)
-    if image is None:
-        st.info("Upload an image or use the local demo image.")
-        return
-    if line is None:
-        st.warning("Draw a single line across the suspected rainbow region.")
-        return
 
-    result = analyze_image(image, line, config)
+    # Display stored analysis result if available
+    if st.session_state.analysis_result is not None:
+        result = st.session_state.analysis_result
+        st.subheader("Profile strip")
+        st.plotly_chart(build_color_strip(result.rgb), use_container_width=True)
 
-    st.subheader("Profile strip")
-    st.plotly_chart(build_color_strip(result.rgb), use_container_width=True)
+        st.subheader("Measured signals")
+        st.plotly_chart(build_rgb_plot(result.distance, result.rgb, config), use_container_width=True)
+        st.plotly_chart(
+            build_hsv_plot(result.distance, result.hue, result.saturation, result.reference, config),
+            use_container_width=True,
+        )
 
-    st.subheader("Measured signals")
-    st.plotly_chart(build_rgb_plot(result.distance, result.rgb, config), use_container_width=True)
-    st.plotly_chart(
-        build_hsv_plot(result.distance, result.hue, result.saturation, result.reference, config),
-        use_container_width=True,
-    )
+        st.subheader("Interpretation")
+        st.metric("Rainbow consistency score", f"{result.comparison['overall_score']:.2f}")
+        st.write(result.comparison["label"])
 
-    st.subheader("Interpretation")
-    st.metric("Rainbow consistency score", f"{result.comparison['overall_score']:.2f}")
-    st.write(result.comparison["label"])
+    # Buttons for Start and Reset
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Start Analysis"):
+            if image is None:
+                st.info("Upload an image or use the local demo image.")
+            elif line is None:
+                st.warning("Draw a single line across the suspected rainbow region.")
+            else:
+                st.write("DEBUG: running analysis, line=", line)
+                result = analyze_image(image, line, config)
+                st.session_state.analysis_result = result
+                st.rerun()
+    with col2:
+        if st.button("Reset"):
+            st.session_state.canvas_key += 1
+            st.session_state.analysis_result = None
+            st.rerun()
+
+    # If there's no analysis result yet, show prompts
+    if st.session_state.analysis_result is None:
+        if image is None:
+            st.info("Upload an image or use the local demo image.")
+        if line is None:
+            st.warning("Draw a single line across the suspected rainbow region.")
 
 if __name__ == "__main__":
-    demo_path = Path("assets/demo/rainbow_wikimedia.jpg")
+    demo_path = Path("assets/demo/Ring-billed_gull_and_a_rainbow_(52910).jpg")
     if demo_path.exists():
         print("Pipeline module ready.")
     else:

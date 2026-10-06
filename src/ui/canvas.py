@@ -43,7 +43,7 @@ def get_image_and_line_selection(config):
         height=height,
         width=width,
         drawing_mode="line",
-        key="line-canvas",
+        key=f"line-canvas-{st.session_state.get('canvas_key', 0)}",
     )
 
     line = _extract_latest_line(canvas_result)

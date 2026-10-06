@@ -4,7 +4,7 @@ default_line_width = 5
 use_local_demo = true
 
 [demo]
-path = "assets/demo/rainbow_wikimedia.jpg"
+path = "assets/demo/Ring-billed_gull_and_a_rainbow_(52910).jpg"
 label = "Local rainbow demo image"
 
 [reference]
