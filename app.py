@@ -1,6 +1,8 @@
 import streamlit as st
+
 from src.config import load_config
 from src.pipeline import run_app_pipeline
+
 
 def main():
     config = load_config()

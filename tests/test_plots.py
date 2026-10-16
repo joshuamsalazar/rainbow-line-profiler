@@ -1,5 +1,7 @@
 import numpy as np
-from src.ui.plots import build_color_strip, build_rgb_plot, build_hsv_plot
+
+from src.ui.plots import build_color_strip, build_hsv_plot, build_rgb_plot
+
 
 def test_plot_creation():
     rgb01 = np.random.rand(50, 3)

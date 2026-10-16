@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def generate_reference_profile(length, config):
     start, end = config["reference"]["hue_range"]
     hue = np.linspace(start, end, length)

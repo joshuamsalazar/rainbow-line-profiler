@@ -28,7 +28,7 @@ jobs:
       run: pixi run test
 
     - name: Smoke check app.py
-      run: python -c "import app; print('app.py imports successfully')"
+      run: pixi run python -c "import app; print('app.py imports successfully')"
 
     - name: Smoke check pipeline.py
-      run: python -c "from src.pipeline import run_app_pipeline; print('pipeline.py imports successfully')"
+      run: pixi run python -c "from src.pipeline import run_app_pipeline; print('pipeline.py imports successfully')"

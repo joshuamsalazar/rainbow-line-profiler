@@ -1,9 +1,11 @@
 from pathlib import Path
+
 import streamlit as st
 from PIL import Image
 from streamlit_drawable_canvas import st_canvas
 
 from src.domain.models import LineSelection
+
 
 def _load_local_demo(config):
     demo_path = Path(config["demo"]["path"])

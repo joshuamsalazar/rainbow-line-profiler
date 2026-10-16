@@ -1,6 +1,7 @@
 import numpy as np
 import plotly.graph_objects as go
 
+
 def build_color_strip(rgb01):
     strip = np.repeat(rgb01[np.newaxis, :, :], 24, axis=0)
     fig = go.Figure()

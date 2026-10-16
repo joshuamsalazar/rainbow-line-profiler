@@ -4,14 +4,14 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from PIL import Image
-from src.config import load_config
 from streamlit_drawable_canvas import st_canvas
 
+from src.config import load_config
 
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 400
-DEFAULT_IMAGE_START = np.array([265.1, 211.2])
-DEFAULT_IMAGE_END = np.array([524.1, 333.3])
+DEFAULT_IMAGE_START = np.array([888.1, 340.2])
+DEFAULT_IMAGE_END = np.array([611.1, 117.3])
 ROOT = Path(__file__).resolve().parent
 
 

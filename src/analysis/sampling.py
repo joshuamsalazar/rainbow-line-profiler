@@ -1,6 +1,7 @@
 import numpy as np
 from skimage.measure import profile_line
 
+
 def sample_line_rgb(rgb, src, dst, linewidth=5):
     channels = [
         profile_line(rgb[:, :, i], src, dst, linewidth=linewidth, order=1, mode="reflect")
