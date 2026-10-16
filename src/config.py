@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -2,6 +2,10 @@
 
 Small scientific Streamlit app to inspect whether a line across an image is consistent with a rainbow-like color signal.
 
+## What it does
+
+Draw a path over an image and compare the generated and computed color profiles along it, to judge whether the signal looks rainbow-like. Mobile support (slider-based path input) is a work in progress.
+
 ## Architecture
 
 - `app.py` is the Streamlit entrypoint.
@@ -30,7 +34,11 @@ pixi run lint
 
 ## Deployment
 
-Deploy to Streamlit Community Cloud using `streamlit.yaml` configuration (future).
+Deployed on Streamlit Community Cloud, which installs from `requirements.txt`.
+
+- Edit runtime dependencies in `pyproject.toml`.
+- Regenerate `requirements.txt` after any dependency change, or the cloud app will miss packages.
+- A "module not found" deploy error usually means the package is absent from `requirements.txt`.
 
 ## Future improvements
 

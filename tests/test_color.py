@@ -1,6 +1,8 @@
 import numpy as np
-from src.analysis.color import rgb_to_hsv_unwrapped, normalize_rgb
+
+from src.analysis.color import normalize_rgb, rgb_to_hsv_unwrapped
 from src.analysis.rainbow import generate_reference_profile
+
 
 def test_rgb_to_hsv_basic():
     rgb = np.array([[[1.0, 1.0, 1.0]]])

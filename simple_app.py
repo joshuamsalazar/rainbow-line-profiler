@@ -4,14 +4,14 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from PIL import Image
-from src.config import load_config
 from streamlit_drawable_canvas import st_canvas
 
+from src.config import load_config
 
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 400
-DEFAULT_IMAGE_START = np.array([265.1, 211.2])
-DEFAULT_IMAGE_END = np.array([524.1, 333.3])
+DEFAULT_IMAGE_START = np.array([888.1, 340.2])
+DEFAULT_IMAGE_END = np.array([611.1, 117.3])
 ROOT = Path(__file__).resolve().parent
 
 
@@ -113,7 +113,8 @@ def simulated_rainbow_profile(num_points=500):
 
 
 st.set_page_config(layout="wide")
-st.title("Simple Canvas")
+st.title("Color Profiler")
+st.caption("Draw a path over the image, and see the generated vs. computed color profiles for rainbows. WIP: mobile support via sliders.")
 
 config = load_config()
 demo_path = ROOT / config.get("demo", {}).get("path", "assets/demo.png")
@@ -209,7 +210,7 @@ with plots_col:
         )
 
     with plot_3_tab:
-        st.info("Plot 3 will be added here.")
+        st.info("Plot 3 will be added here. Someday :D")
 
     if background is not None:
         st.markdown("### Line coordinates")

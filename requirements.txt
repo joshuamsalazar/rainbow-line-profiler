@@ -1,7 +1,7 @@
 streamlit>=1.30
 numpy>=1.26
 pandas>=2.1
-matplotlib>=3.8
 pillow>=10.0
-scipy>=1.11
+plotly>=5.0
+scikit-image>=0.22
 streamlit-drawable-canvas

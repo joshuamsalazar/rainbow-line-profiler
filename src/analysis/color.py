@@ -1,6 +1,7 @@
 import numpy as np
 from skimage.color import rgb2hsv
 
+
 def normalize_rgb(sampled_rgb):
     return np.clip(sampled_rgb / 255.0, 0.0, 1.0)
 

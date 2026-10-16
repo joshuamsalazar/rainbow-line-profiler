@@ -1,14 +1,15 @@
 from pathlib import Path
+
 import numpy as np
 import streamlit as st
-from PIL import Image
 
-from src.analysis.sampling import sample_line_rgb, compute_distances
 from src.analysis.color import normalize_rgb, rgb_to_hsv_unwrapped
-from src.analysis.rainbow import generate_reference_profile, compare_profiles
-from src.domain.models import AnalysisResult, LineSelection
+from src.analysis.rainbow import compare_profiles, generate_reference_profile
+from src.analysis.sampling import compute_distances, sample_line_rgb
+from src.domain.models import AnalysisResult
 from src.ui.canvas import get_image_and_line_selection
 from src.ui.plots import build_color_strip, build_hsv_plot, build_rgb_plot
+
 
 def analyze_image(image, line, config):
     rgb = np.asarray(image)

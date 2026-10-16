@@ -1,7 +1,9 @@
 import numpy as np
 from PIL import Image
+
 from src.domain.models import LineSelection
 from src.pipeline import analyze_image
+
 
 def test_pipeline_synthetic():
     width, height = 100, 50
