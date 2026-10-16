@@ -113,7 +113,8 @@ def simulated_rainbow_profile(num_points=500):
 
 
 st.set_page_config(layout="wide")
-st.title("Simple Canvas")
+st.title("Color Profiler")
+st.caption("Draw a path over the image, and see the generated vs. computed color profiles for rainbows. WIP: mobile support via sliders.")
 
 config = load_config()
 demo_path = ROOT / config.get("demo", {}).get("path", "assets/demo.png")
@@ -209,7 +210,7 @@ with plots_col:
         )
 
     with plot_3_tab:
-        st.info("Plot 3 will be added here.")
+        st.info("Plot 3 will be added here. Someday :D")
 
     if background is not None:
         st.markdown("### Line coordinates")
