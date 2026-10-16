@@ -10,6 +10,8 @@ from streamlit_drawable_canvas import st_canvas
 
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 400
+DEFAULT_IMAGE_START = np.array([265.1, 211.2])
+DEFAULT_IMAGE_END = np.array([524.1, 333.3])
 ROOT = Path(__file__).resolve().parent
 
 
@@ -30,11 +32,38 @@ def latest_line(canvas_result):
     return line_endpoints(objects[-1]) if objects else None
 
 
+def canvas_coordinates_from_image(image_start, image_end, image_size):
+    scale = np.array(
+        [CANVAS_WIDTH / image_size[0], CANVAS_HEIGHT / image_size[1]]
+    )
+    return image_start * scale, image_end * scale
+
+
 def image_coordinates(endpoints, image_size):
     scale = np.array(
         [image_size[0] / CANVAS_WIDTH, image_size[1] / CANVAS_HEIGHT]
     )
     return endpoints[0] * scale, endpoints[1] * scale
+
+
+def canvas_line_object(start, end):
+    return {
+        "type": "line",
+        "version": "4.4.0",
+        "originX": "left",
+        "originY": "top",
+        "left": float(start[0]),
+        "top": float(start[1]),
+        "x1": 0.0,
+        "y1": 0.0,
+        "x2": float(end[0] - start[0]),
+        "y2": float(end[1] - start[1]),
+        "stroke": "#000000",
+        "strokeWidth": 3,
+        "fill": "rgba(0,0,0,0)",
+        "selectable": True,
+        "evented": True,
+    }
 
 
 def rgb_profile(endpoints, image):
@@ -90,6 +119,32 @@ config = load_config()
 demo_path = ROOT / config.get("demo", {}).get("path", "assets/demo.png")
 background = Image.open(demo_path).convert("RGB") if demo_path.exists() else None
 
+if background is not None:
+    slider_start = st.session_state.get("slider_image_start", DEFAULT_IMAGE_START.copy())
+    slider_end = st.session_state.get("slider_image_end", DEFAULT_IMAGE_END.copy())
+
+    x1 = st.session_state.get("x1", float(slider_start[0]))
+    y1 = st.session_state.get("y1", float(slider_start[1]))
+    x2 = st.session_state.get("x2", float(slider_end[0]))
+    y2 = st.session_state.get("y2", float(slider_end[1]))
+
+    slider_image_start = np.array([x1, y1], dtype=float)
+    slider_image_end = np.array([x2, y2], dtype=float)
+    st.session_state["slider_image_start"] = slider_image_start
+    st.session_state["slider_image_end"] = slider_image_end
+
+    default_canvas_start, default_canvas_end = canvas_coordinates_from_image(
+        slider_image_start, slider_image_end, background.size
+    )
+    initial_drawing = {
+        "version": "4.4.0",
+        "objects": [canvas_line_object(default_canvas_start, default_canvas_end)],
+    }
+else:
+    slider_image_start = DEFAULT_IMAGE_START.copy()
+    slider_image_end = DEFAULT_IMAGE_END.copy()
+    initial_drawing = None
+
 canvas_col, plots_col = st.columns(2)
 
 with canvas_col:
@@ -102,13 +157,18 @@ with canvas_col:
         height=CANVAS_HEIGHT,
         width=CANVAS_WIDTH,
         drawing_mode="line",
+        initial_drawing=initial_drawing,
         update_streamlit=True,
         key="canvas",
     )
 
     endpoints = latest_line(canvas_result)
+    if endpoints is None and background is not None:
+        endpoints = default_canvas_start, default_canvas_end
     if background is not None and endpoints is not None:
         _, image_start, image_end, image_length = rgb_profile(endpoints, background)
+        st.session_state["slider_image_start"] = image_start
+        st.session_state["slider_image_end"] = image_end
         st.caption(f"Line length: {image_length:.1f} image pixels")
         st.caption(
             f"Initial image coordinate: ({image_start[0]:.1f}, {image_start[1]:.1f})"
@@ -150,3 +210,41 @@ with plots_col:
 
     with plot_3_tab:
         st.info("Plot 3 will be added here.")
+
+    if background is not None:
+        st.markdown("### Line coordinates")
+        slider_col_1, slider_col_2 = st.columns(2)
+        with slider_col_1:
+            st.slider(
+                "x1",
+                min_value=0.0,
+                max_value=float(background.width),
+                value=float(st.session_state["slider_image_start"][0]),
+                step=0.1,
+                key="x1",
+            )
+            st.slider(
+                "y1",
+                min_value=0.0,
+                max_value=float(background.height),
+                value=float(st.session_state["slider_image_start"][1]),
+                step=0.1,
+                key="y1",
+            )
+        with slider_col_2:
+            st.slider(
+                "x2",
+                min_value=0.0,
+                max_value=float(background.width),
+                value=float(st.session_state["slider_image_end"][0]),
+                step=0.1,
+                key="x2",
+            )
+            st.slider(
+                "y2",
+                min_value=0.0,
+                max_value=float(background.height),
+                value=float(st.session_state["slider_image_end"][1]),
+                step=0.1,
+                key="y2",
+            )
