@@ -24,6 +24,7 @@ scikit-image = "*"
 requests = "*"
 pytest = "*"
 ruff = "*"
+jupyter = ">=1.1.1,<2"
 
 [pypi-dependencies]
 streamlit-drawable-canvas = "*"

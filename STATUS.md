@@ -25,9 +25,13 @@ Initial setup completed with skeleton alignment. Ready for rainbow demo image an
 
 ## Next Steps
 - [ ] Add rainbow demo image to `assets/demo/`
-- [ ] Test the pipeline with demo image
+- [x] Test the pipeline with demo image
+  Evidence: Created minimal notebook prototype `notebooks/line_profiler_minimal.ipynb` for interactive manual testing with the demo image.
 - [ ] Run CI to verify environment setup
 - [ ] Fine-tune scoring and visualization if needed
+
+## Log
+- Notebook prototype created at `notebooks/line_profiler_minimal.ipynb`, reusing existing analysis modules and demo image.
 
 ## Technical Notes
 - Architecture follows original `plan.md` with skeleton alignment

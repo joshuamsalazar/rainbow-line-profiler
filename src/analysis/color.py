@@ -3,7 +3,12 @@ from skimage.color import rgb2hsv
 
 
 def normalize_rgb(sampled_rgb):
-    return np.clip(sampled_rgb / 255.0, 0.0, 1.0)
+    sampled_rgb = np.asarray(sampled_rgb, dtype=float)
+    if sampled_rgb.size == 0:
+        return sampled_rgb
+    scale = 255.0 if np.nanmax(sampled_rgb) > 1.0 else 1.0
+    return np.clip(sampled_rgb / scale, 0.0, 1.0)
+
 
 def rgb_to_hsv_unwrapped(rgb01):
     hsv = rgb2hsv(rgb01.reshape(-1, 1, 3)).reshape(-1, 3)
