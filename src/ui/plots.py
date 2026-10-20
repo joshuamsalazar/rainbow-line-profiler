@@ -3,11 +3,20 @@ import plotly.graph_objects as go
 
 
 def build_color_strip(rgb01):
-    strip = np.repeat(rgb01[np.newaxis, :, :], 24, axis=0)
+    strip = np.repeat(np.arange(len(rgb01))[np.newaxis, :], 24, axis=0)
+    if len(rgb01) == 1:
+        c, d, e = rgb01[0]
+        colorscale = [[0.0, f"rgb({int(c*255)},{int(d*255)},{int(e*255)})"], [1.0, f"rgb({int(c*255)},{int(d*255)},{int(e*255)})"]]
+    else:
+        colorscale = [
+            [i / (len(rgb01) - 1), f"rgb({int(c*255)},{int(d*255)},{int(e*255)})"]
+            for i, (c, d, e) in enumerate(rgb01)
+        ]
+
     fig = go.Figure()
-    fig.add_trace(go.Heatmap(z=np.zeros_like(strip), coloraxis="coloraxis"))
+    fig.add_trace(go.Heatmap(z=strip, coloraxis="coloraxis", showscale=False))
     fig.update_layout(
-        coloraxis=dict(colorscale=[[i, f"rgb({int(c*255)},{int(d*255)},{int(e*255)})"] for i, (c, d, e) in enumerate(rgb01)]),
+        coloraxis=dict(colorscale=colorscale),
         height=60,
         margin=dict(l=0, r=0, t=0, b=0),
         xaxis=dict(showticklabels=False),
