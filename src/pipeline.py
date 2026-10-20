@@ -14,7 +14,9 @@ def analyze_image(image, line, config):
     src = (line.start[1], line.start[0])
     dst = (line.end[1], line.end[0])
 
-    sampled_rgb = sample_line_rgb(rgb, src=src, dst=dst, linewidth=config["app"]["default_line_width"])
+    sampled_rgb = sample_line_rgb(
+        rgb, src=src, dst=dst, linewidth=config["app"]["default_line_width"]
+    )
     distance = compute_distances(src, dst, len(sampled_rgb))
     rgb01 = normalize_rgb(sampled_rgb)
     hue_unwrapped, saturation, value = rgb_to_hsv_unwrapped(rgb01)
@@ -34,14 +36,15 @@ def analyze_image(image, line, config):
         comparison=comparison,
     )
 
+
 def run_app_pipeline(config):
     from src.ui.canvas import get_image_and_line_selection
     from src.ui.plots import build_color_strip, build_hsv_plot, build_rgb_plot
 
     # Initialize session state
-    if 'canvas_key' not in st.session_state:
+    if "canvas_key" not in st.session_state:
         st.session_state.canvas_key = 0
-    if 'analysis_result' not in st.session_state:
+    if "analysis_result" not in st.session_state:
         st.session_state.analysis_result = None
 
     st.write("DEBUG: running pipeline module")
@@ -55,9 +58,14 @@ def run_app_pipeline(config):
         st.plotly_chart(build_color_strip(result.rgb), use_container_width=True)
 
         st.subheader("Measured signals")
-        st.plotly_chart(build_rgb_plot(result.distance, result.rgb, config), use_container_width=True)
         st.plotly_chart(
-            build_hsv_plot(result.distance, result.hue, result.saturation, result.reference, config),
+            build_rgb_plot(result.distance, result.rgb, config),
+            use_container_width=True,
+        )
+        st.plotly_chart(
+            build_hsv_plot(
+                result.distance, result.hue, result.saturation, result.reference, config
+            ),
             use_container_width=True,
         )
 
@@ -90,6 +98,7 @@ def run_app_pipeline(config):
             st.info("Upload an image or use the local demo image.")
         if line is None:
             st.warning("Draw a single line across the suspected rainbow region.")
+
 
 if __name__ == "__main__":
     demo_path = Path("assets/demo/Ring-billed_gull_and_a_rainbow_(52910).jpg")

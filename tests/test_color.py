@@ -19,6 +19,7 @@ def test_rgb_to_hsv_basic():
     assert np.isclose(saturation[0], 1.0)
     assert np.isclose(value[0], 1.0)
 
+
 def test_generate_reference_profile():
     config = {"reference": {"hue_range": [0.0, 1.0], "default_saturation": 1.0}}
     reference = generate_reference_profile(100, config)

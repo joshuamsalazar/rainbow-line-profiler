@@ -33,16 +33,12 @@ def latest_line(canvas_result):
 
 
 def canvas_coordinates_from_image(image_start, image_end, image_size):
-    scale = np.array(
-        [CANVAS_WIDTH / image_size[0], CANVAS_HEIGHT / image_size[1]]
-    )
+    scale = np.array([CANVAS_WIDTH / image_size[0], CANVAS_HEIGHT / image_size[1]])
     return image_start * scale, image_end * scale
 
 
 def image_coordinates(endpoints, image_size):
-    scale = np.array(
-        [image_size[0] / CANVAS_WIDTH, image_size[1] / CANVAS_HEIGHT]
-    )
+    scale = np.array([image_size[0] / CANVAS_WIDTH, image_size[1] / CANVAS_HEIGHT])
     return endpoints[0] * scale, endpoints[1] * scale
 
 
@@ -97,9 +93,7 @@ def simulated_rainbow_profile(num_points=500):
     base_blue = 0.70 + 0.15 * sky
 
     def gaussian(mean, amplitude, standard_deviation):
-        return amplitude * np.exp(
-            -((position - mean) ** 2) / (2 * standard_deviation**2)
-        )
+        return amplitude * np.exp(-((position - mean) ** 2) / (2 * standard_deviation**2))
 
     profile = pd.DataFrame(
         {
@@ -114,7 +108,9 @@ def simulated_rainbow_profile(num_points=500):
 
 st.set_page_config(layout="wide")
 st.title("Color Profiler")
-st.caption("Draw a path over the image, and see the generated vs. computed color profiles for rainbows. WIP: mobile support via sliders.")
+st.caption(
+    "Draw a path over the image, and see the generated vs. computed color profiles for rainbows. WIP: mobile support via sliders."
+)
 
 config = load_config()
 demo_path = ROOT / config.get("demo", {}).get("path", "assets/demo.png")
@@ -171,17 +167,11 @@ with canvas_col:
         st.session_state["slider_image_start"] = image_start
         st.session_state["slider_image_end"] = image_end
         st.caption(f"Line length: {image_length:.1f} image pixels")
-        st.caption(
-            f"Initial image coordinate: ({image_start[0]:.1f}, {image_start[1]:.1f})"
-        )
-        st.caption(
-            f"Final image coordinate: ({image_end[0]:.1f}, {image_end[1]:.1f})"
-        )
+        st.caption(f"Initial image coordinate: ({image_start[0]:.1f}, {image_start[1]:.1f})")
+        st.caption(f"Final image coordinate: ({image_end[0]:.1f}, {image_end[1]:.1f})")
 
 with plots_col:
-    plot_tab, plot_2_tab, plot_3_tab = st.tabs(
-        ["Plot 1: RGB profile", "Plot 2", "Plot 3"]
-    )
+    plot_tab, plot_2_tab, plot_3_tab = st.tabs(["Plot 1: RGB profile", "Plot 2", "Plot 3"])
     with plot_tab:
         st.subheader("Color profile along the line")
         if background is None:

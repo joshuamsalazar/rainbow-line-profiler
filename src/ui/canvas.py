@@ -13,6 +13,7 @@ def _load_local_demo(config):
         return Image.open(demo_path).convert("RGB")
     return None
 
+
 def _extract_latest_line(canvas_result):
     if not canvas_result or not canvas_result.json_data:
         return None
@@ -22,6 +23,7 @@ def _extract_latest_line(canvas_result):
         return None
     line = lines[-1]
     return LineSelection(start=(line["x1"], line["y1"]), end=(line["x2"], line["y2"]))
+
 
 def get_image_and_line_selection(config):
     use_demo = st.checkbox("Use local demo image", value=config["app"].get("use_local_demo", True))

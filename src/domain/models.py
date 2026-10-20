@@ -8,6 +8,7 @@ class LineSelection:
     start: tuple[float, float]
     end: tuple[float, float]
 
+
 @dataclass
 class AnalysisResult:
     distance: np.ndarray

@@ -1,8 +1,8 @@
+import tomllib
 from pathlib import Path
 
-import tomllib
-
 ROOT = Path(__file__).resolve().parents[1]
+
 
 def load_config() -> dict:
     with open(ROOT / "config.toml", "rb") as f:

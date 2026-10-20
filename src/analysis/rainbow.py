@@ -7,6 +7,7 @@ def generate_reference_profile(length, config):
     saturation = np.full(length, config["reference"]["default_saturation"])
     return {"hue": hue, "saturation": saturation}
 
+
 def compare_profiles(measured, reference):
     measured_hue = measured["hue"]
     measured_sat = measured["saturation"]
@@ -14,7 +15,13 @@ def compare_profiles(measured, reference):
     hue_corr = np.corrcoef(measured_hue, reference["hue"])[0, 1] if len(measured_hue) > 1 else 0.0
     sat_diff = float(np.mean(np.abs(measured_sat - reference["saturation"])))
     monotonicity = float(np.mean(np.diff(measured_hue) >= 0)) if len(measured_hue) > 1 else 0.0
-    overall = max(0.0, min(1.0, (max(hue_corr, 0.0) * 0.5) + ((1.0 - sat_diff) * 0.3) + (monotonicity * 0.2)))
+    overall = max(
+        0.0,
+        min(
+            1.0,
+            (max(hue_corr, 0.0) * 0.5) + ((1.0 - sat_diff) * 0.3) + (monotonicity * 0.2),
+        ),
+    )
 
     if overall > 0.75:
         label = "Profile is reasonably consistent with an idealized rainbow signal."

@@ -11,5 +11,6 @@ def main():
     st.caption("Scientific single-line image profiler for rainbow analysis.")
     run_app_pipeline(config)
 
+
 if __name__ == "__main__":
     main()
