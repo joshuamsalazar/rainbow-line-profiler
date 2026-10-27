@@ -18,12 +18,6 @@ dependencies = [
     "streamlit-drawable-canvas",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.4",
-    "ruff>=0.1.0",
-]
-
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
@@ -35,3 +29,6 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 ignore = ["E501"]
+
+[tool.setuptools.packages.find]
+include = ["src*"]

@@ -7,6 +7,9 @@ use_local_demo = true
 path = "assets/demo/Ring-billed_gull_and_a_rainbow_(52910).jpg"
 label = "Local rainbow demo image"
 
+[prototype]
+path = "notebooks/line_profiler_minimal.ipynb"
+
 [reference]
 enabled = true
 hue_range = [0.0, 0.75]
