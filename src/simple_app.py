@@ -1,5 +1,5 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.config import load_config
+from src.config import load_config  # noqa: E402  (import follows sys.path setup above)
 
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 400
