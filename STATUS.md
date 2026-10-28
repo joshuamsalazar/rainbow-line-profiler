@@ -29,7 +29,7 @@ Initial setup completed with skeleton alignment. Ready for rainbow demo image an
     - Removed redundant `[project.optional-dependencies] dev` block from `pyproject.toml`
 
 ## In Progress
-- No tasks currently in progress
+- Updated the notebook’s simulated-profile plotting cell to read position from the DataFrame index, leaving only the three RGB columns in the plotted data.
 
 ## Log
 - Updated default line coordinates in `src/simple_app.py`:
@@ -50,6 +50,13 @@ Initial setup completed with skeleton alignment. Ready for rainbow demo image an
 - Notebook prototype created at `notebooks/line_profiler_minimal.ipynb`, reusing existing analysis modules and demo image.
 - Fixed notebook `src` imports: removed fragile `sys.path` hack; `from src...` imports now resolve via editable install (`pip install -e .`, already configured via `[tool.setuptools.packages.find] include = ["src*"]`). Verified imports + demo image load.
 - `simple_app.py` exposes `simulated_rainbow_profile(num_points=500)` and `rgb_profile(endpoints, image)`; importable in Jupyter as `from simple_app import simulated_rainbow_profile`.
+- Added `sample_screen_app.png` image to `README.md` under "Online testing".
+- Added new notebook cell to `notebooks/line_profiler_minimal.ipynb` that plots the simulated rainbow profile using Plotly (following cell 20 structure), placed after the `simulated_rainbow_profile` import cell.
+- Updated the simulated-profile plot to use `profile.index.to_numpy()` for position, matching the RGB-only `(n, 3)` profile returned by `simulated_rainbow_profile`.
+- Updated the notebook comparison plot with dotted simulated curves, solid measured curves, and sliders for simulated-position shift and intensity scale.
+- Kept the Pixi `notebook` task simple by opening the prototype notebook directly in JupyterLab.
+- Fixed duplicate plot rendering in the interactive notebook cell by returning the Plotly figure instead of calling `fig.show()` inside `widgets.interact`.
+- Removed the duplicate slider cell from the notebook and cleared saved outputs; only one interactive profile plot remains.
 
 ## Technical Notes
 - Architecture follows original `plan.md` with skeleton alignment

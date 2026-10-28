@@ -51,3 +51,6 @@ pixi.lock
 
 # Logs
 *.log
+
+# Jupyter 
+notebooks/.ipynb_checkpoints/
