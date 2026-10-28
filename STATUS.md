@@ -31,6 +31,14 @@ Initial setup completed with skeleton alignment. Ready for rainbow demo image an
 ## In Progress
 - No tasks currently in progress
 
+## Log
+- Updated default line coordinates in `src/simple_app.py`:
+  - `DEFAULT_IMAGE_START` → (741.4, 201.4)
+  - `DEFAULT_IMAGE_END` → (464.4, -21.5)
+  - Round-trip verified through canvas↔image coordinate scaling matches exactly.
+- Fixed replotting issue: `initial_drawing` is now built directly from `DEFAULT_IMAGE_START`/`DEFAULT_IMAGE_END` instead of session-state sliders, so the canvas always starts with the default line. User draws still update `endpoints` and the sliders, but no longer overwrite the initial drawing (Option B behavior).
+- Fixed `ModuleNotFoundError: No module named 'src'` for Streamlit Cloud deployment: added `sys.path` insert of repo root before `from src.config import load_config`, and moved `ROOT` definition above the import. `simple_app.py` now runs both via `streamlit run src/simple_app.py` and as an imported module.
+
 ## Next Steps
 - [ ] Add rainbow demo image to `assets/demo/`
 - [x] Test the pipeline with demo image

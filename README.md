@@ -65,7 +65,7 @@ This launches `simple_app.py`, a lightweight Streamlit prototype with a slider-b
 
 You can check the functioning over streamlit cloud or plotly cloud:
 
-> Open the [Streamlit demo](https://rainbow-line-profiler-shmedaahqh7ugyhflny4xf.streamlit.app/), upload a photograph, and select a line across a suspected rainbow.
+> Open the [Streamlit demo](https://rainbow-line-profiler-aoj4ojpzeh87ipgtmuhrks.streamlit.app), upload a photograph, and select a line across a suspected rainbow.
 
 > A separate [Dash prototype](https://a0341eb1-03bc-48e3-b30b-a4a86de254fa.plotly.app) also explores an alternative interface.
 
