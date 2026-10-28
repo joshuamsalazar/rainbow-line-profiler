@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 
 import numpy as np
 import pandas as pd
@@ -6,13 +7,18 @@ import streamlit as st
 from PIL import Image
 from streamlit_drawable_canvas import st_canvas
 
+# Ensure the repo root is on sys.path so `src.config` resolves when
+# simple_app.py is run directly via `streamlit run src/simple_app.py`.
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from src.config import load_config
 
 CANVAS_WIDTH = 500
 CANVAS_HEIGHT = 400
-DEFAULT_IMAGE_START = np.array([888.1, 340.2])
-DEFAULT_IMAGE_END = np.array([611.1, 117.3])
-ROOT = Path(__file__).resolve().parent
+DEFAULT_IMAGE_START = np.array([741.4, 201.4])
+DEFAULT_IMAGE_END = np.array([464.4, -21.5])
 
 
 def line_endpoints(line_object):
@@ -130,8 +136,11 @@ if background is not None:
     st.session_state["slider_image_start"] = slider_image_start
     st.session_state["slider_image_end"] = slider_image_end
 
+    # initial_drawing is built once from the defaults so the canvas always
+    # starts with the same line; user draws are captured via `endpoints` and
+    # reflected in the sliders, but do not overwrite the initial drawing.
     default_canvas_start, default_canvas_end = canvas_coordinates_from_image(
-        slider_image_start, slider_image_end, background.size
+        DEFAULT_IMAGE_START, DEFAULT_IMAGE_END, background.size
     )
     initial_drawing = {
         "version": "4.4.0",
