@@ -42,6 +42,11 @@ The simulated profile is a reference for comparison, not a measurement from the 
 ## Try the prototype
 
 1. Clone the repo
+
+```bash
+git clone https://github.com/joshuamsalazar/rainbow-line-profiler.git
+```
+
 2. Install the pixi dependency handler
 
 ```bash
@@ -49,7 +54,6 @@ pixi install                 # create environment
 pixi run pip install -e .    # make src importable (one-time)
 pixi run pytest              # verify 
 ```
-
 
 ### Local testing
 
@@ -65,13 +69,23 @@ This launches `simple_app.py`, a lightweight Streamlit prototype with a slider-b
 
 You can check the functioning over streamlit cloud or plotly cloud:
 
+![Streamlit app screenshot](assets/demo/sample_screen_app.png)
+
 > Open the [Streamlit demo](https://rainbow-line-profiler-aoj4ojpzeh87ipgtmuhrks.streamlit.app), upload a photograph, and select a line across a suspected rainbow.
+
 
 > A separate [Dash prototype](https://a0341eb1-03bc-48e3-b30b-a4a86de254fa.plotly.app) also explores an alternative interface.
 
 
+
 Adjust the line and observe how its position changes the measured RGB curves. Compare those curves with the simulated reference profile.
 
+#### Jupyter Notebook draft
+ou can check the prototype principle on the jupyter notebook inside `notebooks/line_profiler_minimal.ipynb` (pixi activates virtual environments and dependencies automatically)
+
+```bash
+pixi run notebook
+```
 
 ## Current status and limitations
 
